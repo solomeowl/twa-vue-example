@@ -1,24 +1,20 @@
 <template>
   <div id="app">
-    <!-- 其他的應用內容 -->
-    <TelegramButton />
+    <TonConnectUIProvider>
+      <TelegramButton />
+    </TonConnectUIProvider>
   </div>
 </template>
 
 <script>
-import { onMounted } from 'vue'
-import { initTelegramWebApp } from './telegramWebApp'
+import { TonConnectUIProvider } from '@tonconnect/ui-react'
 import TelegramButton from './components/TelegramButton.vue'
 
 export default {
   name: 'App',
   components: {
+    TonConnectUIProvider,
     TelegramButton
-  },
-  setup() {
-    onMounted(() => {
-      initTelegramWebApp()
-    })
   }
 }
 </script>

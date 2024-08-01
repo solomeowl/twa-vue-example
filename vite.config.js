@@ -24,5 +24,13 @@ export default defineConfig({
       'Pragma': 'no-cache',
       'Expires': '0'
     }
+  },
+  optimizeDeps: {
+    include: ['@tonconnect/sdk']
+  },
+  build: {
+    commonjsOptions: {
+      include: [/@tonconnect\/sdk/]
+    }
   }
 })
