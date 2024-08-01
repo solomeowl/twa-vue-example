@@ -12,6 +12,7 @@
   "dependencies": {
     "@rollup/plugin-commonjs": "^26.0.1",
     "@ton/core": "^0.56.3",
+    "@ton/ton": "^14.0.0",
     "@tonconnect/sdk": "^3.0.3",
     "@twa-dev/sdk": "^7.0.0",
     "buffer": "^6.0.3",
