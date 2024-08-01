@@ -55,6 +55,7 @@ export default {
                 if (walletInfo) {
                     walletAddress.value = walletInfo.account.address
                     console.log('Wallet connected:', walletAddress.value)
+                    returnToTelegram()
                 } else {
                     walletAddress.value = ''
                     console.log('Wallet disconnected')
@@ -111,6 +112,12 @@ export default {
                 await connector.restoreConnection()
             } catch (e) {
                 console.error('Failed to restore connection:', e)
+            }
+        }
+
+        const returnToTelegram = () => {
+            if (window.Telegram && window.Telegram.WebApp) {
+                window.Telegram.WebApp.close()
             }
         }
 
