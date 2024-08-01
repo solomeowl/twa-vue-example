@@ -1,9 +1,13 @@
-import WebApp from '@twa-dev/sdk'
+import * as TWA from '@twa-dev/sdk'
 
 export const initTelegramWebApp = () => {
-  WebApp.ready()
+  TWA.ready()
 }
 
 export const closeTelegramWebApp = () => {
-  WebApp.close()
+  TWA.close()
+}
+
+export const expandTelegramWebApp = () => {
+  TWA.expand()
 }

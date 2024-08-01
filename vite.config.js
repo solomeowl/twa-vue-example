@@ -15,7 +15,7 @@ export default defineConfig({
   base: '/twa-vue-example/',
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
     }
   },
   server: {
@@ -26,11 +26,11 @@ export default defineConfig({
     }
   },
   optimizeDeps: {
-    include: ['@tonconnect/sdk']
+    include: ['@tonconnect/sdk', '@twa-dev/sdk']
   },
   build: {
     commonjsOptions: {
-      include: [/@tonconnect\/sdk/]
+      include: [/@tonconnect\/sdk/, /@twa-dev\/sdk/]
     }
   }
 })

@@ -8,9 +8,8 @@
 </template>
 
 <script>
-import { closeTelegramWebApp } from '../telegramWebApp'
-import WebApp from '@twa-dev/sdk'
-import TonConnect from '@tonconnect/sdk'
+import { closeTelegramWebApp, expandTelegramWebApp } from '../telegramWebApp'
+const TonConnect = window.TonConnect
 
 export default {
     name: 'TelegramButton',
@@ -30,7 +29,7 @@ export default {
             closeTelegramWebApp()
         },
         expandApp() {
-            WebApp.expand()
+            expandTelegramWebApp()
         },
         async connectWallet() {
             try {
