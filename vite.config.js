@@ -1,11 +1,10 @@
 import { fileURLToPath, URL } from 'node:url'
-
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import vueDevTools from 'vite-plugin-vue-devtools'
-import commonjs from 'vite-plugin-commonjs';
-
+import commonjs from 'vite-plugin-commonjs'
+import { nodePolyfills } from 'vite-plugin-node-polyfills'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -14,6 +13,10 @@ export default defineConfig({
     vueJsx(),
     vueDevTools(),
     commonjs(),
+    nodePolyfills({
+      // Whether to polyfill `node:` protocol imports.
+      protocolImports: true,
+    }),
   ],
   base: '/twa-vue-example/',
   resolve: {
@@ -33,5 +36,8 @@ export default defineConfig({
     commonjsOptions: {
       include: [/node_modules/, /@tonconnect\/sdk/],
     },
+  },
+  define: {
+    global: 'globalThis',
   },
 })

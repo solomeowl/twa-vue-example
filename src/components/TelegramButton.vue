@@ -15,7 +15,7 @@
 import { ref, onMounted, computed } from 'vue'
 import { closeTelegramWebApp, expandTelegramWebApp } from '../telegramWebApp'
 import TonConnect from '@tonconnect/sdk'
-import { Address } from '@ton/core'
+import TonWeb from 'tonweb'
 
 export default {
     name: 'TelegramButton',
@@ -27,7 +27,7 @@ export default {
 
         const formattedAddress = computed(() => {
             if (walletAddress.value) {
-                return Address.parseRaw(walletAddress.value).toString()
+                return new TonWeb.utils.Address(walletAddress.value).toString(true, true, true)
             }
             return ''
         })
@@ -99,13 +99,26 @@ export default {
             console.log('Signing message')
             try {
                 const messageToSign = 'Hello, TON!'
-                const signatureResult = await connector.sendRequest({
-                    method: 'ton_sign',
-                    params: {
-                        message: btoa(messageToSign)
-                    }
-                })
-                signature.value = signatureResult
+
+                const transaction = {
+                    validUntil: Math.floor(Date.now() / 1000) + 60, // 60 seconds from now
+                    messages: [
+                        {
+                            address: '0:0000000000000000000000000000000000000000000000000000000000000000',
+                            amount: '0',
+                            payload: Buffer.from(messageToSign).toString('hex')
+                        }
+                    ]
+                }
+
+                const result = await connector.sendTransaction(transaction)
+
+                if (result) {
+                    signature.value = `Transaction BOC: ${result.boc}`
+                    console.log('Message signed:', result)
+                } else {
+                    throw new Error('Signing failed or was cancelled')
+                }
             } catch (e) {
                 console.error('Failed to sign message:', e)
                 error.value = e.message
