@@ -23,8 +23,20 @@ export default {
         onMounted(() => {
             console.log('TelegramButton mounted')
             connector = new TonConnect({
-                manifestUrl: 'https://your-app-domain.com/tonconnect-manifest.json'
+                manifestUrl: 'https://solomeowl.github.io/twa-vue-example/tonconnect-manifest.json'
             })
+
+            connector.onStatusChange(walletInfo => {
+                if (walletInfo) {
+                    walletAddress.value = walletInfo.account.address
+                    console.log('Wallet connected:', walletAddress.value)
+                } else {
+                    walletAddress.value = ''
+                    console.log('Wallet disconnected')
+                }
+            })
+
+            restoreConnection()
         })
 
         const closeApp = () => {
@@ -44,16 +56,28 @@ export default {
                     universalLink: 'https://app.tonkeeper.com/ton-connect',
                     bridgeUrl: 'https://bridge.tonapi.io/bridge'
                 }
-                await connector.connect(walletConnectionSource)
 
-                const walletInfo = await connector.getWalletInfo()
-                if (walletInfo) {
-                    walletAddress.value = walletInfo.address
-                    console.log('Wallet connected:', walletAddress.value)
+                // 生成連接 URL
+                const url = await connector.connect(walletConnectionSource)
+
+                // 在 Telegram WebApp 中打開 URL
+                if (window.Telegram && window.Telegram.WebApp) {
+                    window.Telegram.WebApp.openLink(url)
+                } else {
+                    // 如果不在 Telegram WebApp 環境中，就在新窗口中打開
+                    window.open(url, '_blank')
                 }
             } catch (e) {
                 console.error('Failed to connect wallet:', e)
                 error.value = e.message
+            }
+        }
+
+        const restoreConnection = async () => {
+            try {
+                await connector.restoreConnection()
+            } catch (e) {
+                console.error('Failed to restore connection:', e)
             }
         }
 

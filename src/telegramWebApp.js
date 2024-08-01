@@ -1,16 +1,16 @@
-import WebApp from '@twa-dev/sdk';
+const TWA = window.Telegram?.WebApp
 
 export const initTelegramWebApp = () => {
-  console.log('Initializing Telegram Web App');
-  WebApp.ready();
+  console.log('Initializing Telegram Web App')
+  TWA?.ready()
 }
 
 export const closeTelegramWebApp = () => {
-  console.log('Closing Telegram Web App');
-  WebApp.close();
+  console.log('Closing Telegram Web App')
+  TWA?.close()
 }
 
 export const expandTelegramWebApp = () => {
-  console.log('Expanding Telegram Web App');
-  WebApp.expand();
+  console.log('Expanding Telegram Web App')
+  TWA?.expand()
 }
