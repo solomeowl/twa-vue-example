@@ -1,7 +1,5 @@
 <template>
     <div class="telegram-buttons">
-        <button @click="closeApp">Close TWA</button>
-        <button @click="expandApp">Expand TWA</button>
         <button v-if="!walletAddress" @click="connectWallet">Connect Wallet</button>
         <button v-else @click="disconnectWallet">Disconnect Wallet</button>
         <p v-if="walletAddress">Wallet Address (Bounceable): {{ formattedAddress }}</p>
@@ -13,7 +11,6 @@
 
 <script>
 import { ref, onMounted, computed } from 'vue'
-import { closeTelegramWebApp, expandTelegramWebApp } from '../telegramWebApp'
 import TonConnect from '@tonconnect/sdk'
 import TonWeb from 'tonweb'
 
@@ -64,16 +61,6 @@ export default {
 
             restoreConnection()
         })
-
-        const closeApp = () => {
-            console.log('Closing app')
-            closeTelegramWebApp()
-        }
-
-        const expandApp = () => {
-            console.log('Expanding app')
-            expandTelegramWebApp()
-        }
 
         const connectWallet = async () => {
             console.log('Connecting wallet')
@@ -127,8 +114,6 @@ export default {
             nonBounceableAddress,
             rawAddress,
             error,
-            closeApp,
-            expandApp,
             connectWallet,
             disconnectWallet
         }
