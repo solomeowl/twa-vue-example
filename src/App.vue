@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <h1>TWA Wallet Connect Example</h1>
     <TelegramButton />
   </div>
 </template>

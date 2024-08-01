@@ -25,12 +25,7 @@ export default defineConfig({
       'Expires': '0'
     }
   },
-  optimizeDeps: {
-    include: ['@tonconnect/sdk', '@twa-dev/sdk']
-  },
   build: {
-    commonjsOptions: {
-      include: [/@tonconnect\/sdk/, /@twa-dev\/sdk/]
-    }
-  }
+    target: 'es2020',
+  },
 })

@@ -8,44 +8,47 @@
 </template>
 
 <script>
+import { ref } from 'vue'
 import { closeTelegramWebApp, expandTelegramWebApp } from '../telegramWebApp'
-const TonConnect = window.TonConnect
 
 export default {
     name: 'TelegramButton',
-    data() {
-        return {
-            walletAddress: '',
-            connector: null
-        }
-    },
-    mounted() {
-        this.connector = new TonConnect({
-            manifestUrl: 'https://your-app-domain.com/tonconnect-manifest.json'
+    setup() {
+        const walletAddress = ref('')
+        const connector = new window.TonConnect({
+            manifestUrl: 'https://ton-connect.github.io/demo-dapp-with-react-ui/tonconnect-manifest.json'
         })
-    },
-    methods: {
-        closeApp() {
+
+        const closeApp = () => {
             closeTelegramWebApp()
-        },
-        expandApp() {
+        }
+
+        const expandApp = () => {
             expandTelegramWebApp()
-        },
-        async connectWallet() {
+        }
+
+        const connectWallet = async () => {
             try {
                 const walletConnectionSource = {
                     universalLink: 'https://app.tonkeeper.com/ton-connect',
                     bridgeUrl: 'https://bridge.tonapi.io/bridge'
                 }
-                await this.connector.connect(walletConnectionSource)
+                await connector.connect(walletConnectionSource)
 
-                const walletInfo = await this.connector.getWalletInfo()
+                const walletInfo = await connector.getWalletInfo()
                 if (walletInfo) {
-                    this.walletAddress = walletInfo.address
+                    walletAddress.value = walletInfo.address
                 }
             } catch (error) {
                 console.error('Failed to connect wallet:', error)
             }
+        }
+
+        return {
+            walletAddress,
+            closeApp,
+            expandApp,
+            connectWallet
         }
     }
 }
