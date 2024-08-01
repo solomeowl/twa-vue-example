@@ -4,6 +4,8 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import vueDevTools from 'vite-plugin-vue-devtools'
+import commonjs from 'vite-plugin-commonjs';
+
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -11,6 +13,7 @@ export default defineConfig({
     vue(),
     vueJsx(),
     vueDevTools(),
+    commonjs(),
   ],
   base: '/twa-vue-example/',
   resolve: {
@@ -27,5 +30,8 @@ export default defineConfig({
   },
   build: {
     target: 'es2020',
+    commonjsOptions: {
+      include: [/node_modules/, /@tonconnect\/sdk/],
+    },
   },
 })
